@@ -16,9 +16,14 @@ plt.rcParams["ytick.labelsize"] = 12
 plt.rcParams["text.usetex"] = True
 
 def colorspace(num, saturation=1, value=0.8, start=0.0):
-    """
-    Returns a list of rgb triples visually evenly spaced in regard of hues;
+    """Returns a list of rgb triples visually evenly spaced in regard of hues;
     start markes first color hue in degrees.
+
+    :param num: param saturation:  (Default value = 1)
+    :param value: Default value = 0.8)
+    :param start: Default value = 0.0)
+    :param saturation:  (Default value = 1)
+
     """
     # Matplotlib uses hues in range [0,1].
     start /= 360.0
@@ -40,25 +45,52 @@ def colorspace(num, saturation=1, value=0.8, start=0.0):
 # Basic functions
 
 def delta(t):
+    """
+
+    :param t: 
+
+    """
     val = np.zeros(t.size, dtype=np.float64)
     val[t == 0] = 1
     return val
 
 def step(t):
+    """
+
+    :param t: 
+
+    """
     val = np.ones(t.size, dtype=np.float64)
     val[t < 0] = 0
     return val
 
 def ramp(t):
+    """
+
+    :param t: 
+
+    """
     val = np.copy(t)
     val *= step(t)
     return val
 
 def zero(t, dtype=np.float64):
+    """
+
+    :param t: param dtype:  (Default value = np.float64)
+    :param dtype:  (Default value = np.float64)
+
+    """
     val = np.zeros(t.size, dtype=dtype)
     return val
 
 def one(t, dtype=np.float64):
+    """
+
+    :param t: param dtype:  (Default value = np.float64)
+    :param dtype:  (Default value = np.float64)
+
+    """
     val = np.ones(t.size, dtype=dtype)
     return val
 
@@ -66,9 +98,15 @@ def one(t, dtype=np.float64):
 # Transformations
 
 def unify(val, threshold=0.1):
+    """
+
+    :param val: param threshold:  (Default value = 0.1)
+    :param threshold:  (Default value = 0.1)
+
+    """
     prefix = [r"",
               r"k", r"M", r"G", r"T", r"P", r"E", r"Z", r"Y",
-              r"y", r"z", r"a", r"f", r"p", r"n", r"µ", r"m"]
+              r"y", r"z", r"a", r"f", r"p", r"n", r"\mu", r"m"]
 
     i = 0
 
@@ -92,21 +130,30 @@ def unify(val, threshold=0.1):
     return val, prefix[i]
 
 def lin(val):
-    """
-    Returns the linear values of the given dB values.
+    """Returns the linear values of the given dB values.
+
+    :param val: 
+
     """
     return 10 ** (val / 20)
 
 def dB(val):
-    """
-    Returns the absolute value in dB of the given values.
+    """Returns the absolute value in dB of the given values.
+
+    :param val: 
+
     """
     return 20 * np.log10(np.abs(val))
 
 def angle_norm(phi, min, max, convert=False):
-    """
-    Returns the phase value in degrees in the range between
+    """Returns the phase value in degrees in the range between
     v_min and v_max of the given values.
+
+    :param phi: param min:
+    :param max: param convert:  (Default value = False)
+    :param min: 
+    :param convert:  (Default value = False)
+
     """
     if convert:
         phi = np.angle(phi, deg=True)
@@ -122,29 +169,45 @@ def angle_norm(phi, min, max, convert=False):
     return phi
 
 def fft(y):
+    """
+
+    :param y: 
+
+    """
     l = y.size // 2 + 1
     val = np.fft.fft(y)
     val[l:] = 0
     return val
 
 def ifft(Y):
+    """
+
+    :param Y: 
+
+    """
     l = Y.size // 2 + 1
     val = np.fft.irfft(Y[:l])
     return val
 
 def polyadd(a, b):
-    """
-    Add polynomial a by polynomial b.
+    """Add polynomial a by polynomial b.
     a and b are lists from highest order term to lowest.
+
+    :param a: param b:
+    :param b: 
+
     """
     val = polynomial.polyadd(a[::-1], b[::-1])
     val = val[::-1]
     return val
 
 def polymul(a, b):
-    """
-    Multiply polynomial a by polynomial b.
+    """Multiply polynomial a by polynomial b.
     a and b are lists from highest order term to lowest.
+
+    :param a: param b:
+    :param b: 
+
     """
     val = polynomial.polymul(a[::-1], b[::-1])
     val = val[::-1]
@@ -155,42 +218,51 @@ def polymul(a, b):
 
 class Element(object):
     def __init__(self, counter, denominator):
-        """
-        An element is described by the counter and denominator of its transfer function. It has corresponding scipy lti and TransferFunction object as attributes.
+    """An element is described by the counter and denominator of its transfer function. It has corresponding scipy lti and TransferFunction object as attributes.
         counter and denominator are list from highest order term to lowest.
-        """
+
+
+    """
         self.counter = np.asarray(counter, dtype=np.float64)
         self.denominator = np.asarray(denominator, dtype=np.float64)
         self.sys = lti(counter, denominator)
         self.tf = TransferFunction(counter, denominator)
 
     def H(self, s):
-        """
-        The transfer function H(s).
+        """The transfer function H(s).
+
+        :param s: 
+
         """
         s = np.asarray(s, dtype=np.complex64)
         val = self.sys.freqresp()[1]
         return val
 
     def bode(self, omega):
-        """
-        The Bode amplitude and phase data.
+        """The Bode amplitude and phase data.
+
+        :param omega: 
+
         """
         omega = np.asarray(omega, dtype=np.complex64)
         omega, amp, phi = self.sys.bode(w=omega, n=512)
         return omega, amp, phi
 
     def h(self, t):
-        """
-        The impulse response h(t).
+        """The impulse response h(t).
+
+        :param t: 
+
         """
         t = np.asarray(t, dtype=np.float64)
         val = self.sys.impulse(T=t, N=512)[1]
         return val
 
     def w(self, t):
-        """
-        The step response w(t).
+        """The step response w(t).
+
+        :param t: 
+
         """
         t = np.asarray(t, dtype=np.float64)
         val = self.sys.step(T=t, N=512)[1]
@@ -234,10 +306,11 @@ class Element(object):
 
 class P(Element):
     def __init__(self, V=1, dB=False):
-        """
-        The basic element P (proportional).
+    """The basic element P (proportional).
         V may be given in dB.
-        """
+
+
+    """
         if dB:
             V = lin(V)
 
@@ -247,18 +320,14 @@ class P(Element):
 
 class I(Element):
     def __init__(self, T=1):
-        """
-        The basic element I (integrator).
-        """
+    """The basic element I (integrator)."""
         self.T = T
 
         super().__init__([1], [T, 0])
 
 class D(Element):
     def __init__(self, T=1, real=True):
-        """
-        The basic element D (differentiator).
-        """
+    """The basic element D (differentiator)."""
         self.T = T
 
         if real:
@@ -270,10 +339,11 @@ class D(Element):
 
 class PT1(Element):
     def __init__(self, T=1, V=1, dB=False):
-        """
-        The basic element PT1 (low pass of order 1).
+    """The basic element PT1 (low pass of order 1).
         V may be given in dB.
-        """
+
+
+    """
         if dB:
             V = lin(V)
 
@@ -284,10 +354,11 @@ class PT1(Element):
 
 class PT2(Element):
     def __init__(self, omega=1, D=1, V=1, dB=False):
-        """
-        The basic element PT2 (low pass of order 2).
+    """The basic element PT2 (low pass of order 2).
         V may be given in dB.
-        """
+
+
+    """
         if D < 0:
             print("Error: Damping must not be negative.")
             return None
@@ -303,10 +374,11 @@ class PT2(Element):
 
 class PD(Element):
     def __init__(self, T=1, V=1, dB=False, Tv=0):
-        """
-        The basic element PD1 (allowance of order 1).
+    """The basic element PD1 (allowance of order 1).
         V may be given in dB.
-        """
+
+
+    """
         if dB:
             V = lin(V)
 
@@ -320,6 +392,7 @@ class PD(Element):
         super().__init__([T * V, V], [Tv, 1])
 
 class PI(Element):
+    """ """
     def __init__(self, V=1, T=1, db=False):
         if dB:
             V = lin(V)
@@ -330,6 +403,7 @@ class PI(Element):
         super().__init__([V * T, V], [T, 0])
 
 class PID(Element):
+    """ """
     def __init__(self, V=1, TN=1, TV=1, db=False, Tv=0):
         if dB:
             V = lin(V)
@@ -343,10 +417,11 @@ class PID(Element):
 
 class PROD(Element):
     def __init__(self, elements):
-        """
-        The composite element PROD.
+    """The composite element PROD.
         It linkes the given elements in seriell.
-        """
+
+
+    """
         self.elements = elements[:]
 
         # Cancel polynomials
@@ -373,10 +448,11 @@ class PROD(Element):
 
 class SUM(Element):
     def __init__(self, elements):
-        """
-        The composite element SUM.
+    """The composite element SUM.
         It linkes the given elements in parallel.
-        """
+
+
+    """
         self.elements = elements
 
         counter, denominator = [0], [1]
@@ -393,9 +469,7 @@ class SUM(Element):
 
 class FEEDBACK(Element):
     def __init__(self, feed, back):
-        """
-        The composite element FEEDBACK = feed / (1 + feed * back)
-        """
+    """The composite element FEEDBACK = feed / (1 + feed * back)"""
         counter = polymul(feed.counter, back.denominator)
         denominator_1 = polymul(feed.denominator, back.denominator)
         denominator_2 = polymul(feed.counter, back.counter)
@@ -407,10 +481,19 @@ class FEEDBACK(Element):
 # Diagrams
 
 class BodeDiagram(object):
-    """
-    Bode diagram of an arbitrary number of transfer functions.
-    """
-    def __init__(self, elements, labels, start, stop, ticks, delta_amp=20, delta_phi=45, N=1024, lang="DE"):
+    """Bode diagram of an arbitrary number of transfer functions."""
+    def __init__(
+        self, 
+        elements, 
+        labels, 
+        start, 
+        stop, 
+        ticks, 
+        delta_amp=20, 
+        delta_phi=45, 
+        N=1024, 
+        lang="DE"
+    ):
         """
         Takes a list of elements with corresponding labels and
         creates a bode diagram from 10**start to 10**stop
@@ -441,8 +524,10 @@ class BodeDiagram(object):
             self.phis.append(angle_norm(phi, self.phi_ticks[0], self.phi_ticks[-1]))
 
     def plot(self, pick=None):
-        """
-        Returns matplotlib figure of the bode diagram.
+        """Returns matplotlib figure of the bode diagram.
+
+        :param pick: Default value = None)
+
         """
         fig, ax_amp = plt.subplots(figsize=(8, 4.5), dpi=240)
         fig.subplots_adjust(left=0.125, right=0.875, bottom=0.15, top=0.95)
@@ -510,23 +595,27 @@ class BodeDiagram(object):
         return fig
 
     def save(self, pick=None, path="", filename="plot.png"):
-        """
-        Creates and saves diagram at path/filename.
+        """Creates and saves diagram at path/filename.
+
+        :param pick: Default value = None)
+        :param path: Default value = "")
+        :param filename: Default value = "plot.png")
+
         """
         fig = self.plot(pick=pick)
         fig.savefig(path + filename)
 
     def show(self, pick=None):
-        """
-        Creates and shows diagram.
+        """Creates and shows diagram.
+
+        :param pick: Default value = None)
+
         """
         fig = self.plot(pick=pick)
         fig.show()
 
 class StepResponse(object):
-    """
-    Step response of an arbitrary number of transfer functions.
-    """
+    """Step response of an arbitrary number of transfer functions."""
     def __init__(self, elements, labels, duration, start=0, lang="DE"):
         """
         Sets functions, labels and colors as attributes.
@@ -552,8 +641,11 @@ class StepResponse(object):
         self.time, self.time_prefix = unify(self.time)
 
     def plot(self, pick=None, lim=None):
-        """
-        Returns matplotlib figure of the step responses.
+        """Returns matplotlib figure of the step responses.
+
+        :param pick: Default value = None)
+        :param lim: Default value = None)
+
         """
         fig, ax = plt.subplots(figsize=(8, 4.5), dpi=240)
         fig.subplots_adjust(left=0.125, right=0.925, bottom=0.15, top=0.95)
@@ -594,7 +686,7 @@ class StepResponse(object):
             x_label = r"Zeit "
             y_label = r"Sprungantwort "
 
-        x_label += r"$\ t \ / \ " + self.time_prefix + r"s$"
+        x_label += r"$\ t \ / \ " + self.time_prefix + r" s$"
         y_label += r"$\ w(t)$"
 
         ax.set_xlabel(x_label)
@@ -608,15 +700,23 @@ class StepResponse(object):
         return fig
 
     def save(self, pick=None, lim=None, path="", filename="plot.png"):
-        """
-        Creates and saves diagram at path/filename.
+        """Creates and saves diagram at path/filename.
+
+        :param pick: Default value = None)
+        :param lim: Default value = None)
+        :param path: Default value = "")
+        :param filename: Default value = "plot.png")
+
         """
         fig = self.plot(pick=pick, lim=lim)
         fig.savefig(path + filename)
 
     def show(self, pick=None, lim=None):
-        """
-        Creates and shows diagram.
+        """Creates and shows diagram.
+
+        :param pick: Default value = None)
+        :param lim: Default value = None)
+
         """
         fig = self.plot(pick=pick, lim=lim)
         fig.show()
@@ -625,6 +725,7 @@ class StepResponse(object):
 # Digital Controller
 
 class DigitalPID(object):
+    """ """
     def __init__(self, V, Tn, Tv, delta_t, umax=None):
         self.delta_t = delta_t
 
@@ -664,6 +765,11 @@ class DigitalPID(object):
         return u
 
     def w(self, t):
+        """
+
+        :param t: 
+
+        """
         t = np.asarray(t, dtype=np.float64)
         s = step(t)
         n = t.size
@@ -682,6 +788,11 @@ class DigitalPID(object):
         return val
 
     def code(self, lang="DE"):
+        """
+
+        :param lang: Default value = "DE")
+
+        """
         target = "soll" if lang == "DE" else "target"
         real = "ist" if lang == "DE" else "real"
         e_old = "e_alt" if lang == "DE" else "e_old"
@@ -729,5 +840,7 @@ class DigitalPID(object):
         return code
 
     def reset(self):
+        """ """
         self.e_old = 0
         self.ui = 0
+
