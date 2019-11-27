@@ -829,4 +829,3 @@ class DigitalPID(object):
         self.e_old = 0
         self.ui = 0
 
-HI = "Hello World :)"
