@@ -218,11 +218,10 @@ def polymul(a, b):
 
 class Element(object):
     def __init__(self, counter, denominator):
-    """An element is described by the counter and denominator of its transfer function. It has corresponding scipy lti and TransferFunction object as attributes.
+        """An element is described by the counter and denominator of its transfer function. 
+        It has corresponding scipy lti and TransferFunction object as attributes.
         counter and denominator are list from highest order term to lowest.
-
-
-    """
+        """
         self.counter = np.asarray(counter, dtype=np.float64)
         self.denominator = np.asarray(denominator, dtype=np.float64)
         self.sys = lti(counter, denominator)
@@ -306,11 +305,9 @@ class Element(object):
 
 class P(Element):
     def __init__(self, V=1, dB=False):
-    """The basic element P (proportional).
+        """The basic element P (proportional).
         V may be given in dB.
-
-
-    """
+        """
         if dB:
             V = lin(V)
 
@@ -320,14 +317,14 @@ class P(Element):
 
 class I(Element):
     def __init__(self, T=1):
-    """The basic element I (integrator)."""
+        """The basic element I (integrator)."""
         self.T = T
 
         super().__init__([1], [T, 0])
 
 class D(Element):
     def __init__(self, T=1, real=True):
-    """The basic element D (differentiator)."""
+        """The basic element D (differentiator)."""
         self.T = T
 
         if real:
@@ -339,11 +336,9 @@ class D(Element):
 
 class PT1(Element):
     def __init__(self, T=1, V=1, dB=False):
-    """The basic element PT1 (low pass of order 1).
+        """The basic element PT1 (low pass of order 1).
         V may be given in dB.
-
-
-    """
+        """
         if dB:
             V = lin(V)
 
@@ -354,11 +349,9 @@ class PT1(Element):
 
 class PT2(Element):
     def __init__(self, omega=1, D=1, V=1, dB=False):
-    """The basic element PT2 (low pass of order 2).
+        """The basic element PT2 (low pass of order 2).
         V may be given in dB.
-
-
-    """
+        """
         if D < 0:
             print("Error: Damping must not be negative.")
             return None
@@ -374,11 +367,9 @@ class PT2(Element):
 
 class PD(Element):
     def __init__(self, T=1, V=1, dB=False, Tv=0):
-    """The basic element PD1 (allowance of order 1).
+        """The basic element PD1 (allowance of order 1).
         V may be given in dB.
-
-
-    """
+        """
         if dB:
             V = lin(V)
 
@@ -392,7 +383,6 @@ class PD(Element):
         super().__init__([T * V, V], [Tv, 1])
 
 class PI(Element):
-    """ """
     def __init__(self, V=1, T=1, db=False):
         if dB:
             V = lin(V)
@@ -403,7 +393,6 @@ class PI(Element):
         super().__init__([V * T, V], [T, 0])
 
 class PID(Element):
-    """ """
     def __init__(self, V=1, TN=1, TV=1, db=False, Tv=0):
         if dB:
             V = lin(V)
@@ -417,11 +406,9 @@ class PID(Element):
 
 class PROD(Element):
     def __init__(self, elements):
-    """The composite element PROD.
+        """The composite element PROD.
         It linkes the given elements in seriell.
-
-
-    """
+        """
         self.elements = elements[:]
 
         # Cancel polynomials
@@ -448,11 +435,9 @@ class PROD(Element):
 
 class SUM(Element):
     def __init__(self, elements):
-    """The composite element SUM.
+        """The composite element SUM.
         It linkes the given elements in parallel.
-
-
-    """
+        """
         self.elements = elements
 
         counter, denominator = [0], [1]
@@ -469,7 +454,7 @@ class SUM(Element):
 
 class FEEDBACK(Element):
     def __init__(self, feed, back):
-    """The composite element FEEDBACK = feed / (1 + feed * back)"""
+        """The composite element FEEDBACK = feed / (1 + feed * back)"""
         counter = polymul(feed.counter, back.denominator)
         denominator_1 = polymul(feed.denominator, back.denominator)
         denominator_2 = polymul(feed.counter, back.counter)

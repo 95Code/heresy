@@ -55,6 +55,9 @@ def nprint(A, norm="local", precision=3):
 
     formatter = {
         "float_kind": float_formatter,
+    }
+    string = np.array2string(A, formatter=formatter)
+    print(string)
 
 class Timer(object):
     """ """
