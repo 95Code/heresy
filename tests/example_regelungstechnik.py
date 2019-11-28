@@ -1,4 +1,4 @@
-import regelungstechnik as rt
+from heresy import regelungstechnik as rt
 
 
 # Example transfer function is a product of a PT1 and PT2 transfer function
@@ -22,7 +22,7 @@ labels = [
 
 # Create a Bode-Diagram and save several plots
 
-bode = rt.BodeDiagramm(elements, labels, start=1.0, stop=5.0, ticks=[-7, 2], lang="EN")
+bode = rt.BodeDiagram(elements, labels, start=1.0, stop=5.0, ticks=[-7, 2], lang="EN")
 bode.save(pick=[], path="images/", filename="bode_canvas.png")
 bode.save(pick=[0], path="images/", filename="bode_single.png")
 bode.save(path="images/", filename="bode_all.png")

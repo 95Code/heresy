@@ -508,13 +508,13 @@ class BodeDiagram(object):
             self.amps.append(amp)
             self.phis.append(angle_norm(phi, self.phi_ticks[0], self.phi_ticks[-1]))
 
-    def plot(self, pick=None):
+    def plot(self, pick=None, dpi=240):
         """Returns matplotlib figure of the bode diagram.
 
         :param pick: Default value = None)
 
         """
-        fig, ax_amp = plt.subplots(figsize=(8, 4.5), dpi=240)
+        fig, ax_amp = plt.subplots(figsize=(8, 4.5), dpi=dpi)
         fig.subplots_adjust(left=0.125, right=0.875, bottom=0.15, top=0.95)
         ax_phi = ax_amp.twinx()
 
@@ -625,14 +625,14 @@ class StepResponse(object):
 
         self.time, self.time_prefix = unify(self.time)
 
-    def plot(self, pick=None, lim=None):
+    def plot(self, pick=None, lim=None, dpi=240):
         """Returns matplotlib figure of the step responses.
 
         :param pick: Default value = None)
         :param lim: Default value = None)
 
         """
-        fig, ax = plt.subplots(figsize=(8, 4.5), dpi=240)
+        fig, ax = plt.subplots(figsize=(8, 4.5), dpi=dpi)
         fig.subplots_adjust(left=0.125, right=0.925, bottom=0.15, top=0.95)
 
         steps = np.asarray(self.steps)
