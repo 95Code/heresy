@@ -1,4 +1,4 @@
-import regelungstechnik as rt
+from heresy import regelungstechnik as rt
 import numpy as np
 
 
@@ -363,4 +363,65 @@ def all_PD():
 #all_P()
 #all_D()
 #all_I()
-all_PD()
+#all_PD()
+def aufgabe_3():
+    D = rt.D(T=5e-6)
+    PT2 = rt.PT2(omega=1e5, D=0.5)
+    DT2 = rt.PROD([D, PT2])
+
+    elements = [DT2]
+    labels = [
+        r"$F(s)$",
+    ]
+
+    plot(
+        elements, 
+        labels, 
+        "DT2", 
+        -1, 3, [-3, 3], 
+        100e-6, [-1, 1]
+    )
+
+
+def aufgabe_5():
+    PD = rt.PD(T=0.1e-3)
+    PT1 = rt.PT1(V=0.148, T=2e-3)
+    PT3 = rt.Element([1], [5e-10, 5.6e-6, 6.1e-3, 1])
+    PDT4 = rt.PROD([PD, PT1, PT3])
+
+    elements = [PDT4]
+    labels = [
+        r"$F_{gz}(s)$",
+    ]
+    plot(
+       elements, 
+       labels, 
+       "PDT3", 
+       -1, 3, [-5, 3], 
+       25e-3, [0, 0.5]
+    )
+
+
+def aufgabe_6():
+    I = rt.I(T=10)
+    PT1a = rt.PT1(T=0.5)
+    PT1b = rt.PT1(T=2)
+    IT2 = rt.PROD([I, PT1a, PT1b])
+
+    elements = [IT2]
+    labels = [
+        r"$F_{0}(s)$",
+    ]
+
+    plot(
+       elements, 
+       labels, 
+       "IT2", 
+       -3, 2, [-6, 2], 
+       25e-3, [0, 0.5]
+    )
+
+
+   
+if __name__ == "__main__":
+    aufgabe_6()
