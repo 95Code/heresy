@@ -54,12 +54,7 @@ def status(url: str) -> int:
     return response.status_code 
 
 
-def lsurl(url: str) -> list:
-    try:
-        text = curl(url)
-    except ValueError as e:
-        raise ValueError(str(e))
-
+def list_urls(html_text: str) -> list:
     hrefs = set() 
 
     class Parser(HTMLParser):
@@ -74,7 +69,7 @@ def lsurl(url: str) -> list:
     # TODO: Get URLs from script content.
     # TODO: Keep relative URLs.
 
-    Parser().feed(text)
+    Parser().feed(html_text)
     urls = []
 
     for href in hrefs:
@@ -82,6 +77,16 @@ def lsurl(url: str) -> list:
         if scheme == "https" or scheme == "http":
             urls.append(href)
 
+    return urls
+
+
+def lsurl(url: str) -> list:
+    try:
+        text = curl(url)
+    except ValueError as e:
+        raise ValueError(str(e))
+
+    urls = list_urls(text)
     return urls
 
 

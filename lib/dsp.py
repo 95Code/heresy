@@ -19,6 +19,7 @@ def imread(filename):
     img = np.asarray(img, dtype=np.float32)
     return img
 
+
 def imwrite(filename, img):
     """Write an image to the desired filename.
 
@@ -28,6 +29,7 @@ def imwrite(filename, img):
     """
     img = np.asarray(255 * img, dtype=np.uint8)
     imageio.imwrite(filename, img)
+
 
 def imfilter(img, kernel):
     """Filter an RGB image with a kernel. 
@@ -42,6 +44,7 @@ def imfilter(img, kernel):
     new_img = np.dstack([red, green, blue])
     return new_img 
 
+
 def average_kernel(r):
     """
 
@@ -52,6 +55,7 @@ def average_kernel(r):
     A = np.ones((n,n), dtype=np.float32)
     A /= A.sum()
     return A 
+
 
 def gaussian_kernel(r, sigma=1, seperable=False):
     """
@@ -79,6 +83,7 @@ def gaussian_kernel(r, sigma=1, seperable=False):
 
     return G
 
+
 def disc_kernel(r, seperable=False):
     """
 
@@ -93,6 +98,7 @@ def disc_kernel(r, seperable=False):
     D[x**2 + y**2 <= (n//2)**2] = 1
     D /= D.sum()
     return D 
+
 
 def blur(file_in="xmas.jpg", file_out="out.jpg", n=7, mode="avg"):
     """
@@ -112,6 +118,7 @@ def blur(file_in="xmas.jpg", file_out="out.jpg", n=7, mode="avg"):
         G = gaussian(n)
         img_blur = imfilter(img, G)
     elif mode == "gaussian_seperable":
+        pass
 
 
 def show_kernel(kernel):
@@ -134,6 +141,7 @@ def show_kernel(kernel):
     ax.plot_surface(x, y, img, cmap=cmap)
     plt.show()
 
+
 def fix(n):
     """
 
@@ -145,6 +153,7 @@ def fix(n):
         print(f"Fix: {n} -> {n + 1}")
         n += 1
     return n
+
 
 def index(m, n, axis="x"):
     """
@@ -182,7 +191,7 @@ def index(m, n, axis="x"):
     return M
 
 
-# --- SCRIPT ---
+# --- MAIN ---
 
 if __name__ == "__main__":
     pass
