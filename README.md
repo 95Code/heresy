@@ -40,3 +40,9 @@ Library to get information about URLs and websites.
 ### Prices 
 
 Library to get timeseries price data.
+
+## TODO
+
+```
+[ ] Add GitHub as git remote.
+```

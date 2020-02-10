@@ -1,0 +1,3 @@
+#!/bin/sh
+
+# Convert $1 to $2.

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+ufraw-batch *.ARW --out-type=jpg --compression=99
+

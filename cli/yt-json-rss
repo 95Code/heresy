@@ -1,0 +1,43 @@
+#!/usr/bin/python
+
+# --- IMPORTS ---
+
+import json
+import sys
+import os
+
+
+
+# --- FUNCTIONS ---
+
+def read(filename):
+    with open(filename, "r") as f:
+        abos = json.load(f) 
+    return abos
+
+def convert(abos):
+    urls = []
+
+    for abo in abos:
+        cid = abo["snippet"]["resourceId"]["channelId"]
+        title = abo["snippet"]["title"]
+        url = "https://www.youtube.com/feeds/videos.xml"
+        url += "?channel_id=" + cid
+        url += ' "~YouTube: ' + title + '"' 
+        url += " youtube "
+        urls.append(url)
+
+    return urls
+
+def write(urls):
+    for url in urls:
+        print(url)
+
+
+# --- SCRIPT ---
+
+if __name__ == "__main__":
+    filename = sys.argv[1]
+    abos = read(filename) 
+    urls = convert(abos)
+    write(urls)

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+cmd="ffmpeg "
+n=0 
+i=0
+
+for v in *
+do
+   cmd+="-i $v "
+   let n+=1
+done
+
+cmd+="-filter_complex \""
+
+until [ $i = $n ]
+do
+    cmd+="[$i:v:0] [$i:a:0] "
+    let i+=1
+done
+
+cmd+="concat=n=$n:v=1:a=1 [v] [a]\" "
+cmd+="-map \"[v]\" -map \"[a]\" -q:v 4 $1"
+
+echo $cmd
+
+eval $cmd

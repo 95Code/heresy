@@ -1,0 +1,20 @@
+#!/home/david/P-<3/bin/python3
+
+
+# --- IMPORTS ---
+
+from heresy import www 
+import sys
+
+
+# --- SCRIPT ---
+
+if __name__ == "__main__":
+    url = sys.argv[1]
+    try:
+        urls = www.lsurl(url)
+    except ValueError as e:
+        print(str(e))
+    else:
+        for u in urls:
+            print(u)

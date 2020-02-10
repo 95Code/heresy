@@ -1,0 +1,52 @@
+#!/usr/bin/python
+
+
+# --- IMPORTS ---
+
+import sys
+import requests
+from html.parser import HTMLParser
+from urllib.parse import urlparse
+import json
+import re
+
+
+# --- TXT-HIST ---
+
+def read(filename):
+    with open(filename, "r") as f:
+        txt = f.read()
+    return txt
+
+def hist(txt, fuzzy=0):
+    # TODO: Words get grouped if they only differ by #fuzzy chars.
+    words = txt.split()
+    dictionary = {}
+
+    for word in words:
+        count = dictionary.get(word, 0)
+        dictionary[word] = count + 1
+
+    hist = sorted(
+        dictionary.items(), 
+        key=lambda x: x[1]
+    )
+
+    percentage = []
+    total = len(words)
+
+    for w, c in hist:
+        percentage.append((w, c / total))
+
+    return percentage 
+
+
+# --- SCRIPT ---
+
+if __name__ == "__main__":
+    filename = sys.argv[1]
+    txt = read(filename)
+    hist = hist(txt)
+    for word, count in hist:
+        print(f"{1000 * count:5.2f}‰: {word}")
+

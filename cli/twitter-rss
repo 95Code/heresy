@@ -1,0 +1,4 @@
+#!/bin/sh
+
+URL="https://twitrss.me/twitter_user_to_rss/?user=$1" 
+echo "$URL twitter"

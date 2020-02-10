@@ -1,0 +1,55 @@
+#!/usr/bin/python
+
+
+# --- IMPORTS ---
+
+import sys
+import requests
+from html.parser import HTMLParser
+from urllib.parse import urlparse
+import json
+import re
+
+
+# --- LSURL ---
+
+def curl(url):
+    try:
+        response = requests.get(url)
+    except Exception as e:
+        raise ValueError(f"Failed to GET {url}")
+
+    return response.text
+
+def parse(html):
+    values = [] 
+
+    class Parser(HTMLParser):
+        tag = ""
+
+        def handle_data(self, data):
+            if self.tag != "script":
+                values.append(data)
+
+        def handle_starttag(self, tag, attrs):
+            self.tag = tag
+
+    parser = Parser()
+    parser.feed(html)
+    text = " ".join(values)
+
+    text = text.lower()
+    text = re.sub(r"[^A-z0-9öäü\-\_]", " ", text)
+    text = re.sub(r"[\s]{2,}", " ", text)
+
+    return text
+
+
+# --- SCRIPT ---
+
+if __name__ == "__main__":
+    url = sys.argv[1]
+    html = curl(url)
+    text = parse(html)
+    print(text)
+

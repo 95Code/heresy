@@ -1,0 +1,4 @@
+#!/bin/sh
+
+URL="https://www.youtube.com/feeds/videos.xml?playlist_id=$1"
+echo "$URL youtube playlist"

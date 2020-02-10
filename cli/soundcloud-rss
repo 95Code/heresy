@@ -1,0 +1,43 @@
+#!/home/david/P-<3/bin/python3
+
+
+# --- IMPORTS ---
+
+import json
+import sys
+import os
+import requests
+from heresy import www
+
+
+# --- FUNCTIONS ---
+
+
+def soundcloud_rss(name):
+    soundcloud = "https://soundcloud.com/" + name
+
+    url = "http://getrssfeed.com" 
+    payload = {"url": soundcloud}
+    response = requests.post(url, data=payload)
+
+    urls = www.list_urls(response.text)
+
+    for u in urls:
+        netloc = www.urlparse(u)["netloc"]
+        if netloc == "feeds.soundcloud.com":
+            return u
+
+    raise ValueError("Failed to get RSS feed.")
+
+
+
+# --- SCRIPT ---
+
+if __name__ == "__main__":
+    name = sys.argv[1]
+    try:
+        url = soundcloud_rss(name)
+    except ValueError as e:
+        print(str(e))
+    else:
+        print(url + " soundcloud")

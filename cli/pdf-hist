@@ -1,0 +1,4 @@
+#!/bin/sh
+
+pdftotext $1 "$1.txt"
+txt-hist "$1.txt" 
