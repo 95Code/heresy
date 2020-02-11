@@ -1,13 +1,15 @@
 # Heresy
 
+Code library of David Härer.
 
-## Contents
+This library is split into four types.
 
-- `lib`: Backend libraries.
-- `cli`: Shell command line interfaces.
-- `tui`: Terminal user interface apps.
-- `gui`: Graphical user interface apps.
+- `lib`: Backend libraries to be used by other programs.
+- `cli`: Command line interfaces to be used as commands in the terminal.
+- `tui`: Terminal user interface to be used as apps in the terminal.
+- `gui`: Graphical user interface to be used as desktop or mobile apps.
 
+---
 
 ## Projects
 
@@ -41,9 +43,10 @@ Library to get information about URLs and websites.
 
 Library to get timeseries price data.
 
+---
+
 ## TODO
 
 ```
-[ ] Add GitHub as git remote.
-[ ] Move Cybertutor into repo.
+- Move Cybertutor into repo.
 ```
