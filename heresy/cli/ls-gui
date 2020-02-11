@@ -1,0 +1,3 @@
+#!/bin/sh
+
+$HOME/heresy/venv/bin/python $HOME/heresy/heresy/gui/nous/app.py
