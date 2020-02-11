@@ -17,7 +17,7 @@ There are several projects, that can have code in several categories:
     Plot step response and bode diagramm of transfer functions.
 - **WWW**: 
     Get information about URLs and websites.
-- **Prices **: 
+- **Prices**: 
     Get timeseries price data.
 - **Utils**: 
     Helper code.
