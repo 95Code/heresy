@@ -45,4 +45,5 @@ Library to get timeseries price data.
 
 ```
 [ ] Add GitHub as git remote.
+[ ] Move Cybertutor into repo.
 ```
