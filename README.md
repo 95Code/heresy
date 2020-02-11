@@ -28,4 +28,5 @@ There are several projects, that can have code in several categories:
 
 ```
 - Move Cybertutor into repo.
+- Create cli ls-gui for kivy app.
 ```

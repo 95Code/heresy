@@ -8,7 +8,8 @@ from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 
 # --- LOCAL ---
-from heresy.lib import www
+# TODO: Fix import from inside package.
+#from .lib import www
 
 
 # --- CONFIG ---
