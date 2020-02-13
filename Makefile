@@ -1,4 +1,4 @@
-VENV = "P-\<3"
+VENV = "pyvenv"
 PIP = "$(VENV)/bin/pip" 
 PY = "$(VENV)/bin/python" 
 

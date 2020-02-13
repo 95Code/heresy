@@ -1,5 +1,7 @@
 # Heresy
 
+Code dump of David Härer.
+
 This library is split into four categories:
 
 - `lib`: Backend libraries to be used by other programs.
